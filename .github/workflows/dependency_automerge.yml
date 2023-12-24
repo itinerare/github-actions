@@ -1,0 +1,15 @@
+name: Automatically Merge Dependency PRs
+
+on:
+  workflow_call:
+
+jobs:
+  set-automerge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set auto-merge
+        if: ${{ startsWith(github.head_ref, 'dependabot/') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --delete-branch "${{ github.head_ref }}"

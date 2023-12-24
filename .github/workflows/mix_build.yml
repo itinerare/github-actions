@@ -1,0 +1,32 @@
+name: Build Mix Assets
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Set up node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+
+    - name: Run Mix
+      run: |
+        npm install
+        npm run prod
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+          message: 'chore(deps): rebuild mix assets'
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com

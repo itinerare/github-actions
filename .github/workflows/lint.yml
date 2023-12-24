@@ -12,7 +12,9 @@ jobs:
     uses: itinerare/github-actions/.github/workflows/pint.yml@main
     with:
       php-version: ${{ inputs.php-version }}
+    concurrency: ci-lint-${{ github.ref }}
 
   blade-formatter:
     uses: itinerare/github-actions/.github/workflows/blade_formatter.yml@main
+    concurrency: ci-lint-${{ github.ref }}
 

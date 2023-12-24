@@ -11,6 +11,10 @@ jobs:
   pint:
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: ci-pint-${{ github.head_ref }}
+      cancel-in-progress: true
+
     steps:
     - uses: shivammathur/setup-php@v2
       with:

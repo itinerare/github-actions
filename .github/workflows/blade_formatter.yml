@@ -7,6 +7,10 @@ jobs:
   blade-formatter:
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: ci-blade-formatter-${{ github.head_ref }}
+      cancel-in-progress: true
+
     steps:
     - uses: actions/checkout@v4
       with:

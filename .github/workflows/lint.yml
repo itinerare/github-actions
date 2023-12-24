@@ -1,0 +1,64 @@
+name: Lint
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        required: true
+        type: string
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Install
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+
+    - name: Run pint
+      run: composer lint
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+          message: 'refactor: fix PHP styling'
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+
+  blade-formatter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Set up node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+
+    - name: Install packages
+      run: npm install
+
+    - name: Run blade-formatter
+      run: npm run format
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+          message: 'refactor: fix blade formatting'
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+

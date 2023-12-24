@@ -1,4 +1,4 @@
-name: Rebuild Vite Assets
+name: Build Vite Assets
 
 on:
   workflow_call:

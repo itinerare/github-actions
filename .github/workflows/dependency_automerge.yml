@@ -1,4 +1,4 @@
-name: Automatically Merge Dependency PRs
+name: Set Auto-merge for Dependabot PRs
 
 on:
   workflow_call:

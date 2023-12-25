@@ -11,6 +11,9 @@ jobs:
   pint:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     concurrency:
       group: ci-pint-${{ github.head_ref }}
       cancel-in-progress: true

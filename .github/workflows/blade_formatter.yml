@@ -7,6 +7,9 @@ jobs:
   blade-formatter:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     concurrency:
       group: ci-blade-formatter-${{ github.head_ref }}
       cancel-in-progress: true

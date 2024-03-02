@@ -1,6 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "baseBranches": ["main"],
+    "ignoreTests": true,
     "extends": [
         "local>itinerare/renovate-config"
     ]

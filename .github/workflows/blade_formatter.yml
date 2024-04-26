@@ -11,14 +11,14 @@ jobs:
       contents: write
 
     concurrency:
-      group: ci-blade-formatter-${{ github.head_ref }}
+      group: ci-blade-formatter-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: true
 
     steps:
     - uses: actions/checkout@v4
       with:
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
-        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+        ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
     - name: Set up node
       uses: actions/setup-node@v4

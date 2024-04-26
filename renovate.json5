@@ -3,6 +3,6 @@
     "baseBranches": ["main"],
     "ignoreTests": true,
     "extends": [
-        "local>itinerare/renovate-config"
+        "local>internal/renovate-config"
     ]
 }

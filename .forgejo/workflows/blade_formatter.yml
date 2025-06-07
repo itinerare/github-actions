@@ -1,0 +1,46 @@
+name: Run blade-formatter
+
+on:
+  workflow_call:
+
+jobs:
+  blade-formatter:
+    runs-on: docker
+
+    permissions:
+      contents: write
+
+    steps:
+    - uses: https://code.itinerare.net/internal/checkout@v4
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+        ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+
+    - name: Set up node
+      uses: https://github.com/actions/setup-node@v4
+      with:
+        node-version: ${{ vars.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install packages
+      run: npm install
+
+    - name: Run blade-formatter
+      run: npm run format
+
+    - name: Import GPG key
+      uses: https://github.com/crazy-max/ghaction-import-gpg@v6
+      with:
+        gpg_private_key: ${{ secrets.CI_GPG }}
+        git_user_signingkey: true
+        git_commit_gpgsign: true
+
+    - name: Commit changes
+      uses: https://github.com/EndBug/add-and-commit@v9
+      with:
+        pull: '--rebase --autostash'
+        message: 'refactor: fix blade formatting'
+        default_author: github_actions
+        author_name: ${{ vars.COMMITTER_NAME }}
+        author_email: ${{ vars.COMMITTER_EMAIL }}
+

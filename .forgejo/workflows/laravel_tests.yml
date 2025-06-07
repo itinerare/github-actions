@@ -1,18 +1,13 @@
-name: Laravel Tests
+inputs:
+  php-version:
+    required: true
+    type: string
+  db-name:
+    required: true
+    type: string
 
-on:
-  workflow_call:
-    inputs:
-      php-version:
-        required: true
-        type: string
-      db-name:
-        required: true
-        type: string
-
-jobs:
-  laravel-tests:
-    runs-on: docker
+runs:
+    using: "composite"
 
     services:
       mysql:
@@ -23,7 +18,7 @@ jobs:
           ports:
               - 3306
           options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+          
     steps:
     - uses: https://github.com/shivammathur/setup-php@v2
       with:
@@ -58,6 +53,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
 
     - name: Run tests
+      id: tests-run
       run: php artisan test
       env:
         DB_PORT: ${{ job.services.mysql.ports[3306] }}

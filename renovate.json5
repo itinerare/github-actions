@@ -1,8 +1,10 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "baseBranches": ["main"],
-    "ignoreTests": true,
-    "extends": [
-        "local>internal/renovate-config"
-    ]
+    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+    baseBranchPatterns: [
+        'main',
+    ],
+    ignoreTests: true,
+    extends: [
+        'local>internal/renovate-config',
+    ],
 }

@@ -16,7 +16,7 @@ jobs:
 
     services:
       mysql:
-          image: mysql:9
+          image: mysql:9@sha256:94254b456a6db9b56c83525a86bff4c7f1e52335f934cbed686fe1ce763116a0
           env:
               MYSQL_ALLOW_EMPTY_PASSWORD: yes
               MYSQL_DATABASE: ${{ inputs.db-name }}
